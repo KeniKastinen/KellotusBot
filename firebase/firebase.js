@@ -21,12 +21,29 @@ admin.initializeApp({
 });
 
 let db = admin.database();
-
+let hankkijatRef = db.ref('hankkijat')
+let aliases = [];
+let ids = [];
+hankkijatRef.on('value', function(snapshot) {
+  aliases = [];
+  ids = [];
+  snapshot.forEach(function(childSnapshot) {
+    let id = childSnapshot.child('id').val();
+    childSnapshot.child('aliakset').forEach(function(childChildSnapshot){
+      aliases.push(childChildSnapshot.val());
+      ids.push(id);
+    });
+  });
+  log.debug('Aliases updated');
+});
 let firebase = {
-  gatAll: function(){
-    let hankkijat = db.ref('hankkijat').on('value', function(snapshot) {
+  getAll: function(){
+    hankkijatRef.on('value', function(snapshot) {
       log.debug(snapshot.val());
     });
   },
+  getAliases: function(){
+    log.debug(aliases.length);
+  }
 };
 module.exports = firebase;

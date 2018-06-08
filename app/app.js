@@ -16,7 +16,6 @@ module.exports = function(bot) {
   const log = require('loglevel');
   log.setLevel(logLevel);
   
-
   bot.on("text", (message) => {
     parseResults(message.text);
 
@@ -24,15 +23,14 @@ module.exports = function(bot) {
       let lines = messageText.split(/\r?\n/); //Split on newline
       let results = [];
       //add lines with number and w/o "-character on start to results array
-      for (var i = 1; i < lines.length; i++) {
+      for (var i = 0; i < lines.length; i++) {
         if (lines[i].match(new RegExp("\\d")) != null && !lines[i].startsWith("\"")){
           results.push(lines[i]); 
         }
       }
       log.debug(results);
       bot.sendMessage(TARGET_CHAT_ID, results.join("\n"));
-      //firebase.getAll();
-      
+      firebase.getAliases();
     }
   });
 }
