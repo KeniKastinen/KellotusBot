@@ -12,6 +12,7 @@
 module.exports = function(bot) {
   
   const TARGET_CHAT_ID = process.env.TARGET_CHAT_ID;
+  const firebase = require('../firebase/firebase');
   const log = require('loglevel');
   log.setLevel(logLevel);
   
@@ -30,8 +31,8 @@ module.exports = function(bot) {
       }
       log.debug(results);
       bot.sendMessage(TARGET_CHAT_ID, results.join("\n"));
+      //firebase.getAll();
       
-      //return 
     }
   });
 }

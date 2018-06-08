@@ -19,3 +19,14 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: process.env.FIREBASE_URL
 });
+
+let db = admin.database();
+
+let firebase = {
+  gatAll: function(){
+    let hankkijat = db.ref('hankkijat').on('value', function(snapshot) {
+      log.debug(snapshot.val());
+    });
+  },
+};
+module.exports = firebase;
