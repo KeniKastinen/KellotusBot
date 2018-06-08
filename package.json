@@ -1,0 +1,17 @@
+{
+  "name": "kellotusbot",
+  "version": "0.0.1",
+  "description": "Telegram bot to parse Kellotus results from group chat and push them to Firebase",
+  "main": "index.js",
+  "scripts": {
+    "start": "export $(cat .env | xargs) && nodemon --inspect index.js"
+  },
+  "author": "Keni kastinen",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^5.12.1",
+    "loglevel": "^1.6.1",
+    "node-telegram-bot-api": "^0.30.0",
+    "request": "^2.87.0"
+  }
+}
