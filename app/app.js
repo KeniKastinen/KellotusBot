@@ -1,3 +1,12 @@
+/*
+    KellotusBot, a Telegram bot to filter Kellotus results from group chat and push them to Firebase
+    Copyright (C) 2018  Keni Kastinen
+*/
+
+/*
+    app.js
+    Message hansling.
+*/
 'use strict';
 
 module.exports = function(bot) {
