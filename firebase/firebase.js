@@ -24,7 +24,9 @@ let db = admin.database();
 let hankkijatRef = db.ref('hankkijat')
 let aliases = [];
 let ids = [];
+let dbSnapshot = null;
 hankkijatRef.on('value', function(snapshot) {
+  dbSnapshot = snapshot;
   aliases = [];
   ids = [];
   snapshot.forEach(function(childSnapshot) {
@@ -34,7 +36,7 @@ hankkijatRef.on('value', function(snapshot) {
       ids.push(id);
     });
   });
-  log.debug('Aliases updated');
+  //log.debug('Aliases updated');
 });
 let firebase = {
   getAll: function(){
@@ -43,7 +45,26 @@ let firebase = {
     });
   },
   getAliases: function(){
-    log.debug(aliases.length);
+    return aliases;
+  },
+  getIds: function(){
+    return ids;
+  },
+  getName: function(getNameId){
+    let hankkijaName = dbSnapshot.child(getNameId).child('hankkijaNimi').val();
+    return hankkijaName;
+  },
+  writeResult: function(writeResultId, result, time){ //id, data
+    let kellotusAmount = this.getKellotusAmount(writeResultId);
+    let newResultRef = db.ref('hankkijat/' + writeResultId + '/kellotuksettg/'+kellotusAmount).set({ 
+      tulos: 13
+    });
+      //var data = {"suorittaja":61, "tulos":3, "aika":1448902560000, "viesti":311, "ysiysi":false};
+  },
+  getKellotusAmount: function(getKellotusAmountId){
+    let kellotusAmount = dbSnapshot.child(getKellotusAmountId).child('kellotuksettg').numChildren()
+    log.debug(this.getName(getKellotusAmountId) + ' kellotukset: ' + kellotusAmount);
+    return kellotusAmount;
   }
 };
 module.exports = firebase;
